@@ -2,6 +2,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:practica2_audd/login/login.dart';
 import '../auth/bloc/auth_bloc.dart';
 import '../content/favmusic/favmusic.dart';
 import '../content/song/songpage.dart';
@@ -79,6 +80,10 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(Icons.power_settings_new),
                     onPressed: () {
                       BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
+                      // Navigator.of(context).pushAndRemoveUntil(
+                      //     new MaterialPageRoute(
+                      //         builder: (context) => new LoginPage()),
+                      //     (route) => false);
                     },
                   ),
                 ),

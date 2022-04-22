@@ -26,20 +26,33 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Music App',
-        home: BlocConsumer<AuthBloc, AuthState>(
-            builder: (context, state) {
-              if (state is AuthSuccessState) {
-                return HomePage();
-              } else if (state is UnAuthState) {
-                return LoginPage();
-              } else if (state is AuthErrorState) {
-                return LoginPage();
-              }
-              return Container(
-                child: CircularProgressIndicator(),
-              );
-            },
-            listener: (context, state) {}),
+        home: BlocConsumer<AuthBloc, AuthState>(builder: (context, state) {
+          if (state is AuthSuccessState) {
+            return HomePage();
+          } else if (state is UnAuthState) {
+            return LoginPage();
+          } else if (state is AuthErrorState) {
+            return LoginPage();
+          } else if (state is SignOutSuccessState) {
+            return LoginPage();
+          }
+          return Scaffold(
+            body: Container(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }, listener: (context, state) {
+          print("Listener has been called");
+          if (state is AuthSuccessState) {
+            print("AuthSuccessState");
+          } else if (state is UnAuthState) {
+            print("UnAuthState");
+          } else if (state is AuthErrorState) {
+            print("AuthErrorState");
+          } else {
+            print("Other state: $state");
+          }
+        }),
         theme: ThemeData.dark());
   }
 }
