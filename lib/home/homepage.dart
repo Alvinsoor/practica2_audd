@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:practica2_audd/home/bloc/homerecord_bloc.dart';
 import 'package:practica2_audd/login/login.dart';
+import 'package:record/record.dart';
 import '../auth/bloc/auth_bloc.dart';
 import '../content/favmusic/favmusic.dart';
 import '../content/song/songpage.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -28,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Toque para escuchar",
+              "Tap to start listening",
               style: GoogleFonts.lato(
                 textStyle: TextStyle(
                   color: Colors.white,
@@ -42,8 +49,13 @@ class _HomePageState extends State<HomePage> {
               glowColor: Colors.deepPurpleAccent,
               endRadius: 200.0,
               child: GestureDetector(
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SongPage())),
+                onTap: () {
+                  BlocProvider.of<HomerecordBloc>(context)
+                      .add(HomerecordUpdateEvent());
+                },
+                // =>
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SongPage())),
                 child: Material(
                   elevation: 8.0,
                   shape: CircleBorder(),

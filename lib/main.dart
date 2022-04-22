@@ -2,20 +2,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practica2_audd/auth/bloc/auth_bloc.dart';
+import 'package:practica2_audd/home/bloc/homerecord_bloc.dart';
 
 import 'package:practica2_audd/home/homepage.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'content/favmusic/favmusic.dart';
 import 'login/login.dart';
-import '../content/song/songpage.dart';
 
 Future main() async {
-  await dotenv.load(fileName: ".env");
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => AuthBloc()..add(VerifyAuthEvent())),
+      BlocProvider(
+        create: (context) => HomerecordBloc()..add(HomerecordUpdateEvent()),
+      )
     ],
     child: MyApp(),
   ));
@@ -44,13 +45,13 @@ class MyApp extends StatelessWidget {
         }, listener: (context, state) {
           print("Listener has been called");
           if (state is AuthSuccessState) {
-            print("AuthSuccessState");
+            print("$state");
           } else if (state is UnAuthState) {
-            print("UnAuthState");
+            print("$state");
           } else if (state is AuthErrorState) {
-            print("AuthErrorState");
-          } else {
-            print("Other state: $state");
+            print("$state");
+          } else if (state is SignOutSuccessState) {
+            print("$state");
           }
         }),
         theme: ThemeData.dark());

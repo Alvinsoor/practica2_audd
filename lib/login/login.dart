@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+//import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../auth/bloc/auth_bloc.dart';
 
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 150),
                     Text(
-                      "Utilice una red social:",
+                      "Log in using a social media account",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(
                           color: Colors.white,

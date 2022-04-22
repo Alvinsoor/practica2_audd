@@ -47,3 +47,4 @@ app.*.map.json
 android/app/google-services.json
 .env
 assets/base 64 audio.txt
+lib/utils/secrets.dart
