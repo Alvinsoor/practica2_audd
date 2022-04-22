@@ -1,5 +1,9 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:practica2_audd/favmusic/favmusic.dart';
+
+import '../song/songpage.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -23,17 +27,21 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               "Toque para escuchar",
-              style: TextStyle(
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(height: 50),
             AvatarGlow(
               glowColor: Colors.deepPurpleAccent,
               endRadius: 200.0,
               child: GestureDetector(
-                onTap: () => print("mid tapped"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SongPage())),
                 child: Material(
                   elevation: 8.0,
                   shape: CircleBorder(),
@@ -58,9 +66,10 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(
                       Icons.favorite,
                     ),
-                    onPressed: () {
-                      print("fav tapped");
-                    },
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FavouritePage())),
                   ),
                 ),
                 CircleAvatar(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -38,10 +39,13 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Text(
                       "Welcome",
-                      style: TextStyle(
-                          fontSize: 36,
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 50,
@@ -53,8 +57,15 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 150),
                     Text(
                       "Utilice una red social:",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
+                    SizedBox(height: 20),
                     SignInButton(
                       Buttons.Google,
                       onPressed: () {
