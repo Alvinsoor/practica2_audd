@@ -45,6 +45,8 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_signin_button: ^2.0.0
   google_fonts: ^2.3.1
+  google_sign_in: ^5.3.0
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:

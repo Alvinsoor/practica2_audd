@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../auth/bloc/auth_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -37,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(height: 50),
                     Text(
                       "Welcome",
                       style: GoogleFonts.lato(
@@ -69,7 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                     SignInButton(
                       Buttons.Google,
                       onPressed: () {
-                        //BlocProvider.of<AuthBloc>(context).add(GoogleAuthEvent());
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(GoogleAuthEvent());
                       },
                     ),
                   ],

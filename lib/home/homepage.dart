@@ -1,9 +1,10 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:practica2_audd/favmusic/favmusic.dart';
-
-import '../song/songpage.dart';
+import '../auth/bloc/auth_bloc.dart';
+import '../content/favmusic/favmusic.dart';
+import '../content/song/songpage.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                   child: IconButton(
                     icon: Icon(Icons.power_settings_new),
                     onPressed: () {
-                      print("logout tapped");
+                      BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
                     },
                   ),
                 ),
