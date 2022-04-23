@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SongPage extends StatefulWidget {
-  SongPage({Key? key}) : super(key: key);
+  final song;
+  SongPage({Key? key, this.song}) : super(key: key);
 
   @override
   State<SongPage> createState() => _SongPageState();
@@ -13,16 +14,6 @@ void _launchURL(_url) async {
 }
 
 class _SongPageState extends State<SongPage> {
-  var _album = "Mothership";
-  var _apple =
-      "https://music.apple.com/us/album/inspire-the-liars/1138328704?at=1000l33QU&i=1138329271&mt=1";
-  var _spotify = "https://open.spotify.com/track/2DdluBZleLq30PlfUAqSD5";
-  var _artist = "Dance Gavin Dance";
-  var _cover =
-      "https://i.scdn.co/image/ab67616d0000b273209ec0e7aef2871a5a4c2f49";
-  var _listn = "https://lis.tn/InspireTheLiars";
-  var _name = "Inspire The Liars";
-  var _release = "2014-09-18";
   var _iconsize = 40.0;
 
   @override
@@ -47,16 +38,18 @@ class _SongPageState extends State<SongPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.network(_cover),
+            Image.network("${widget.song["albumCover"]}"),
             SizedBox(height: 20),
-            Text(_name,
+            Text("${widget.song["songName"]}",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             SizedBox(height: 5),
-            Text(_artist, style: TextStyle(fontSize: 18)),
+            Text("${widget.song["artistName"]}",
+                style: TextStyle(fontSize: 18)),
             SizedBox(height: 5),
-            Text(_album, style: TextStyle(fontSize: 15)),
+            Text("${widget.song["albumName"]}", style: TextStyle(fontSize: 15)),
             SizedBox(height: 5),
-            Text(_release, style: TextStyle(fontSize: 15)),
+            Text("${widget.song["releaseDate"]}",
+                style: TextStyle(fontSize: 15)),
             Divider(
               height: 30,
               thickness: 1,
@@ -75,14 +68,14 @@ class _SongPageState extends State<SongPage> {
                 IconButton(
                   iconSize: _iconsize,
                   onPressed: () {
-                    _launchURL(_apple);
+                    _launchURL("${widget.song["appleLink"]}");
                   },
                   icon: Icon(Icons.apple),
                 ),
                 IconButton(
                   iconSize: _iconsize,
                   onPressed: () {
-                    _launchURL(_spotify);
+                    _launchURL("${widget.song["spotifyLink"]}");
                   },
                   icon: Image.asset(
                     'assets/spotify.png',
@@ -92,7 +85,7 @@ class _SongPageState extends State<SongPage> {
                 IconButton(
                   iconSize: _iconsize,
                   onPressed: () {
-                    _launchURL(_listn);
+                    _launchURL("${widget.song["listenLink"]}");
                   },
                   icon: Icon(Icons.podcasts),
                 ),

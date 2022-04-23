@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-//import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:practica2_audd/utils/secrets.dart';
 import 'package:record/record.dart';
@@ -21,8 +20,7 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
     print("Will attempt to search for song");
     final tmpPath = await _obtainTempPath();
     print("Temp path: $tmpPath");
-    //await dotenv.load(fileName: ".env");
-    //print("Dotenv loaded");
+
     final filePath = await doRecording(tmpPath, emit);
     print("File path: $filePath");
     File file = File(filePath!);
@@ -30,9 +28,43 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
 
     String fileString = await fileConvert(file);
 
-    var response = await _recieveResponse(fileString);
+    var json = await _recieveResponse(fileString);
 
-    print(response);
+    print(json);
+
+    if (json == null || json["result"] == null) {
+      emit(HomerecordFailureState());
+    } else {
+      final String songName = json['result']['title'];
+      print("Song name: $songName");
+      final String artistName = json['result']['artist'];
+      print("Artist name: $artistName");
+      final String albumName = json['result']['album'];
+      print("Album name: $albumName");
+      final String releaseDate = json['result']['release_date'];
+      print("Release date: $releaseDate");
+      final String appleLink = json['result']['apple_music']['url'];
+      print("Apple link: $appleLink");
+      final String spotifyLink =
+          json['result']['spotify']['external_urls']['spotify'];
+      print("Spotify link: $spotifyLink");
+      final String albumCover =
+          json['result']['spotify']['album']['images'][0]['url'];
+      print("Album cover: $albumCover");
+      final String listenLink = json['result']['song_link'];
+      print("Listen link: $listenLink");
+
+      emit(HomerecordSuccessState(
+        songName: songName,
+        artistName: artistName,
+        albumName: albumName,
+        releaseDate: releaseDate,
+        appleLink: appleLink,
+        spotifyLink: spotifyLink,
+        albumCover: albumCover,
+        listenLink: listenLink,
+      ));
+    }
   }
 
   Future<String?> doRecording(String tmpPath, Emitter<dynamic> emit) async {
@@ -71,6 +103,7 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
   }
 
   Future _recieveResponse(String file) async {
+    emit(HomerecordFinishedState());
     print("Will start sending");
     http.Response response = await http.post(
       Uri.parse('https://api.audd.io/'),
