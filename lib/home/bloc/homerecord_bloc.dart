@@ -91,7 +91,6 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
         //stop recording
         return await _record.stop();
         //send to server
-
       } else {
         emit(HomerecordFailureState());
         print("Permission denied");

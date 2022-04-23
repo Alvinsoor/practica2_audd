@@ -23,7 +23,35 @@ class _SongPageState extends State<SongPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              //show favourite confirmation dialog
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Favourite"),
+                    content: Text(
+                        "Are you sure you want to add this song to your favourites?"),
+                    actions: [
+                      FlatButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          //add song to favourites
+                          Navigator.pop(context);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          //dismiss dialog
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
             icon: Icon(Icons.favorite_border),
           ),
         ],
