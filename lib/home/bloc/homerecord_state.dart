@@ -13,6 +13,8 @@ class HomerecordListeningState extends HomerecordState {}
 
 class HomerecordFinishedState extends HomerecordState {}
 
+class HomerecordMissingValuesState extends HomerecordState {}
+
 class HomerecordSuccessState extends HomerecordState {
   String songName;
 

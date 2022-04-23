@@ -35,35 +35,40 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
     if (json == null || json["result"] == null) {
       emit(HomerecordFailureState());
     } else {
-      final String songName = json['result']['title'];
-      print("Song name: $songName");
-      final String artistName = json['result']['artist'];
-      print("Artist name: $artistName");
-      final String albumName = json['result']['album'];
-      print("Album name: $albumName");
-      final String releaseDate = json['result']['release_date'];
-      print("Release date: $releaseDate");
-      final String appleLink = json['result']['apple_music']['url'];
-      print("Apple link: $appleLink");
-      final String spotifyLink =
-          json['result']['spotify']['external_urls']['spotify'];
-      print("Spotify link: $spotifyLink");
-      final String albumCover =
-          json['result']['spotify']['album']['images'][0]['url'];
-      print("Album cover: $albumCover");
-      final String listenLink = json['result']['song_link'];
-      print("Listen link: $listenLink");
+      try {
+        final String songName = json['result']['title'];
+        print("Song name: $songName");
+        final String artistName = json['result']['artist'];
+        print("Artist name: $artistName");
+        final String albumName = json['result']['album'];
+        print("Album name: $albumName");
+        final String releaseDate = json['result']['release_date'];
+        print("Release date: $releaseDate");
+        final String appleLink = json['result']['apple_music']['url'];
+        print("Apple link: $appleLink");
+        final String spotifyLink =
+            json['result']['spotify']['external_urls']['spotify'];
+        print("Spotify link: $spotifyLink");
+        final String albumCover =
+            json['result']['spotify']['album']['images'][0]['url'];
+        print("Album cover: $albumCover");
+        final String listenLink = json['result']['song_link'];
+        print("Listen link: $listenLink");
 
-      emit(HomerecordSuccessState(
-        songName: songName,
-        artistName: artistName,
-        albumName: albumName,
-        releaseDate: releaseDate,
-        appleLink: appleLink,
-        spotifyLink: spotifyLink,
-        albumCover: albumCover,
-        listenLink: listenLink,
-      ));
+        emit(HomerecordSuccessState(
+          songName: songName,
+          artistName: artistName,
+          albumName: albumName,
+          releaseDate: releaseDate,
+          appleLink: appleLink,
+          spotifyLink: spotifyLink,
+          albumCover: albumCover,
+          listenLink: listenLink,
+        ));
+      } catch (e) {
+        print("Error: $e");
+        emit(HomerecordMissingValuesState());
+      }
     }
   }
 
