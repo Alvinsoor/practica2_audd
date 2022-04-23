@@ -10,11 +10,11 @@ abstract class FirebaseEvent extends Equatable {
 class FirebaseGetFavouriteMusicEvent extends FirebaseEvent {}
 
 class FirebaseRemoveFavouriteMusicEvent extends FirebaseEvent {
-  final Map<String, dynamic> favourite;
+  final int index;
 
-  FirebaseRemoveFavouriteMusicEvent({required this.favourite});
+  FirebaseRemoveFavouriteMusicEvent({required this.index});
   @override
-  List<Object> get props => [this.favourite];
+  List<Object> get props => [this.index];
 }
 
 class FirebaseAddFavouriteMusicEvent extends FirebaseEvent {

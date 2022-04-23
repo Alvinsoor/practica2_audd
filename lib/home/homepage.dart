@@ -2,6 +2,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:practica2_audd/content/bloc/firebase_bloc.dart';
 import 'package:practica2_audd/content/song/songpage.dart';
 import 'package:practica2_audd/home/bloc/homerecord_bloc.dart';
 import '../auth/bloc/auth_bloc.dart';
@@ -145,14 +146,17 @@ class _HomePageState extends State<HomePage> {
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     child: IconButton(
-                      icon: Icon(
-                        Icons.favorite,
-                      ),
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FavouritePage())),
-                    ),
+                        icon: Icon(
+                          Icons.favorite,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FavouritePage()));
+                          BlocProvider.of<FirebaseBloc>(context)
+                              .add(FirebaseGetFavouriteMusicEvent());
+                        }),
                   ),
                   CircleAvatar(
                     backgroundColor: Colors.white,

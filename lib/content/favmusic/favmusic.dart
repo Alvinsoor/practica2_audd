@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:practica2_audd/content/bloc/firebase_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FavouritePage extends StatefulWidget {
   FavouritePage({Key? key}) : super(key: key);
@@ -9,6 +12,11 @@ class FavouritePage extends StatefulWidget {
 }
 
 class _FavouritePageState extends State<FavouritePage> {
+  void _launchURL(_url) async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
+  }
+
+  late List<dynamic> _favourites;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,32 +26,92 @@ class _FavouritePageState extends State<FavouritePage> {
           style: GoogleFonts.lato(),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (var i = 0; i < 5; i++) cardGen(context),
-            ],
-          ),
-        ),
+      body: BlocConsumer<FirebaseBloc, FirebaseState>(
+        listener: (context, state) {
+          // TODO: implement listener
+          if (state is FirebaseGetFavMusicSuccess) {
+            _favourites = state.favourites;
+          }
+          if (state is FirebaseRemoveFavSongSuccess) {
+            //success snackbar
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Song removed from favourites"),
+                duration: Duration(seconds: 2),
+              ),
+            );
+            BlocProvider.of<FirebaseBloc>(context)
+                .add(FirebaseGetFavouriteMusicEvent());
+          }
+        },
+        builder: (context, state) {
+          if (state is FirebaseGetFavMusicSuccess) {
+            return SingleChildScrollView(
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 0; i < _favourites.length; i++)
+                      cardGen(_favourites, i),
+                  ],
+                ),
+              ),
+            );
+          } else if (state is FirebaseGetFavMusicLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is FirebaseGetFavMusicIsEmpty) {
+            return Center(
+              child: Text("No favourite songs yet"),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
       ),
     );
   }
 
-  Card cardGen(BuildContext context) {
+  Card cardGen(List<dynamic> favourites, var index) {
     return Card(
       child: Stack(
         children: [
           //a sample view of an album cover which is clickable
           GestureDetector(
             onTap: () {
-              print("Card tapped");
+              //alert dialogue to confirm opening link
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Open link"),
+                    content: Text(
+                        "Are you sure you want to open the link to this song?"),
+                    actions: [
+                      TextButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          //open link
+                          Navigator.pop(context);
+                          _launchURL('${favourites[index]['listenLink']}');
+                        },
+                      ),
+                      TextButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          //dismiss dialog
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
-            child: Image.network(
-                'https://i.scdn.co/image/ab67616d0000b273209ec0e7aef2871a5a4c2f49'),
+            child: Image.network('${favourites[index]['albumCover']}'),
           ),
 
           Positioned(
@@ -51,7 +119,36 @@ class _FavouritePageState extends State<FavouritePage> {
             left: 10,
             child: IconButton(
               onPressed: () {
-                print('clicked');
+                //alert dialogue for removing favourite
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Remove favourite"),
+                      content: Text(
+                          "Are you sure you want to remove this song from your favourites?"),
+                      actions: [
+                        TextButton(
+                          child: Text("Yes"),
+                          onPressed: () {
+                            //remove favourite
+                            Navigator.pop(context);
+                            BlocProvider.of<FirebaseBloc>(context).add(
+                                FirebaseRemoveFavouriteMusicEvent(
+                                    index: index));
+                          },
+                        ),
+                        TextButton(
+                          child: Text("No"),
+                          onPressed: () {
+                            //dismiss dialog
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               icon: Icon(Icons.favorite),
               color: Colors.red,
@@ -78,24 +175,26 @@ class _FavouritePageState extends State<FavouritePage> {
                 children: [
                   Center(
                     child: Text(
-                      'Inspire The Liars',
+                      '${favourites[index]['songName']}',
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                         ),
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Center(
                     child: Text(
-                      'Dance Gavin Dance',
+                      '${favourites[index]['artistName']}',
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
                         ),
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],

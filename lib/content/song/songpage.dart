@@ -87,17 +87,26 @@ class _SongPageState extends State<SongPage> {
             ScaffoldMessenger.of(context)
               ..removeCurrentSnackBar()
               ..showSnackBar(SnackBar(
-                content: Text("Could not add to favourites"),
+                content: Text("Could not add to favourites. Please try again."),
+                backgroundColor: Colors.red,
               ));
           } else if (state is FirebaseAddFavSongExists) {
             print("$state");
             ScaffoldMessenger.of(context)
               ..removeCurrentSnackBar()
               ..showSnackBar(SnackBar(
-                content: Text("Already in favourites"),
+                content: Text("Already in favourites!"),
+                backgroundColor: Colors.red,
               ));
           } else if (state is FirebaseInitial) {
             print("$state");
+          } else if (state is FirebaseAddFavSongLoading) {
+            //show loading snackbar
+            ScaffoldMessenger.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text("Adding to favourites..."),
+              ));
           }
         },
         builder: (context, state) {
