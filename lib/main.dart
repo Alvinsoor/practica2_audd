@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practica2_audd/auth/bloc/auth_bloc.dart';
+import 'package:practica2_audd/content/bloc/firebase_bloc.dart';
 import 'package:practica2_audd/home/bloc/homerecord_bloc.dart';
 
 import 'package:practica2_audd/home/homepage.dart';
@@ -14,9 +15,8 @@ Future main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => AuthBloc()..add(VerifyAuthEvent())),
-      BlocProvider(
-        create: (context) => HomerecordBloc()..add(HomerecordUpdateEvent()),
-      )
+      BlocProvider(create: (context) => HomerecordBloc()),
+      BlocProvider(create: (context) => FirebaseBloc()),
     ],
     child: MyApp(),
   ));

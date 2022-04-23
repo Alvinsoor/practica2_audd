@@ -12,48 +12,50 @@ part 'homerecord_event.dart';
 part 'homerecord_state.dart';
 
 class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
+  HomerecordState get initialState => HomerecordInitial();
+
   HomerecordBloc() : super(HomerecordInitial()) {
     on<HomerecordEvent>(_searchSong);
   }
 
   void _searchSong(HomerecordEvent event, Emitter emit) async {
-    print("Will attempt to search for song");
+    //print("Will attempt to search for song");
     final tmpPath = await _obtainTempPath();
-    print("Temp path: $tmpPath");
+    //print("Temp path: $tmpPath");
 
     final filePath = await doRecording(tmpPath, emit);
-    print("File path: $filePath");
+    //print("File path: $filePath");
     File file = File(filePath!);
-    print("File: $file");
+    //print("File: $file");
 
     String fileString = await fileConvert(file);
 
     var json = await _recieveResponse(fileString);
 
-    print(json);
+    //print(json);
 
     if (json == null || json["result"] == null) {
       emit(HomerecordFailureState());
     } else {
       try {
         final String songName = json['result']['title'];
-        print("Song name: $songName");
+        //print("Song name: $songName");
         final String artistName = json['result']['artist'];
-        print("Artist name: $artistName");
+        //print("Artist name: $artistName");
         final String albumName = json['result']['album'];
-        print("Album name: $albumName");
+        //print("Album name: $albumName");
         final String releaseDate = json['result']['release_date'];
-        print("Release date: $releaseDate");
+        //print("Release date: $releaseDate");
         final String appleLink = json['result']['apple_music']['url'];
-        print("Apple link: $appleLink");
+        //print("Apple link: $appleLink");
         final String spotifyLink =
             json['result']['spotify']['external_urls']['spotify'];
-        print("Spotify link: $spotifyLink");
+        //print("Spotify link: $spotifyLink");
         final String albumCover =
             json['result']['spotify']['album']['images'][0]['url'];
-        print("Album cover: $albumCover");
+        //print("Album cover: $albumCover");
         final String listenLink = json['result']['song_link'];
-        print("Listen link: $listenLink");
+        //print("Listen link: $listenLink");
 
         emit(HomerecordSuccessState(
           songName: songName,
@@ -96,7 +98,7 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
         print("Permission denied");
       }
     } catch (e) {
-      print(e);
+      //print(e);
     }
     return null;
   }
@@ -108,7 +110,7 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
 
   Future _recieveResponse(String file) async {
     emit(HomerecordFinishedState());
-    print("Will start sending");
+    //print("Will start sending");
     http.Response response = await http.post(
       Uri.parse('https://api.audd.io/'),
       headers: {'Content-Type': 'multipart/form-data'},
@@ -122,7 +124,7 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
       ),
     );
     if (response.statusCode == 200) {
-      print("Success");
+      //print("Success");
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to load json');
@@ -132,8 +134,8 @@ class HomerecordBloc extends Bloc<HomerecordEvent, HomerecordState> {
 
 Future<String> fileConvert(File file) async {
   List<int> fileBytes = await file.readAsBytes();
-  print("File bytes: $fileBytes");
+  //print("File bytes: $fileBytes");
   String base64String = base64Encode(fileBytes);
-  print("Base64 string: $base64String");
+  //print("Base64 string: $base64String");
   return base64String;
 }

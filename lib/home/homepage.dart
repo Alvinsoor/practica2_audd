@@ -68,10 +68,12 @@ class _HomePageState extends State<HomePage> {
             print("$state");
             _effect = false;
             _listenStatus = "Tap to start listening";
-            Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text("Could not detect song. Please try again."),
-              backgroundColor: Colors.red,
-            ));
+            ScaffoldMessenger.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text("Could not detect song. Please try again."),
+                backgroundColor: Colors.red,
+              ));
           } else if (state is HomerecordFinishedState) {
             _effect = true;
             _listenStatus = "Detecting song...";
@@ -86,11 +88,13 @@ class _HomePageState extends State<HomePage> {
             print("$state");
             _effect = false;
             _listenStatus = "Tap to start listening";
-            Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(
-                  "Song was missing either Apple music or Spotify link. Please try again."),
-              backgroundColor: Colors.red,
-            ));
+            ScaffoldMessenger.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text(
+                    "Song was missing either Apple music or Spotify link. Please try again."),
+                backgroundColor: Colors.red,
+              ));
           }
         }, builder: (context, state) {
           return Column(

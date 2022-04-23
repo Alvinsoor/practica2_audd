@@ -25,74 +25,84 @@ class _FavouritePageState extends State<FavouritePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Card(
-                child: Stack(
-                  children: [
-                    //a sample view of an album cover
-                    Image.network(
-                        'https://i.scdn.co/image/ab67616d0000b273209ec0e7aef2871a5a4c2f49'),
-
-                    Positioned(
-                      top: 10,
-                      left: 10,
-                      child: Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 30,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        //height is 20% of the card
-                        height: MediaQuery.of(context).size.height * 0.1,
-
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              Colors.black.withOpacity(0.8),
-                              Colors.black.withOpacity(0.0),
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Inspire The Liars',
-                                style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Text(
-                                'Dance Gavin Dance',
-                                style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              for (var i = 0; i < 5; i++) cardGen(context),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Card cardGen(BuildContext context) {
+    return Card(
+      child: Stack(
+        children: [
+          //a sample view of an album cover which is clickable
+          GestureDetector(
+            onTap: () {
+              print("Card tapped");
+            },
+            child: Image.network(
+                'https://i.scdn.co/image/ab67616d0000b273209ec0e7aef2871a5a4c2f49'),
+          ),
+
+          Positioned(
+            top: 10,
+            left: 10,
+            child: IconButton(
+              onPressed: () {
+                print('clicked');
+              },
+              icon: Icon(Icons.favorite),
+              color: Colors.red,
+              iconSize: 40,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(1),
+                    Colors.black.withOpacity(0.0),
+                  ],
+                ),
+              ),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      'Inspire The Liars',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      'Dance Gavin Dance',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
