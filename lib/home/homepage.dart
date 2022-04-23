@@ -39,9 +39,9 @@ class _HomePageState extends State<HomePage> {
         child: BlocConsumer<HomerecordBloc, HomerecordState>(
             listener: (context, state) {
           // TODO: implement listener
-          print("Listener has been called");
+          //print("Listener has been called");
           if (state is HomerecordSuccessState) {
-            print("$state");
+            //print("$state");
             _songName = state.songName;
             _artistName = state.artistName;
             _albumName = state.albumName;
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             _effect = false;
             _listenStatus = "Tap to start listening";
           } else if (state is HomerecordFailureState) {
-            print("$state");
+            //print("$state");
             _effect = false;
             _listenStatus = "Tap to start listening";
             ScaffoldMessenger.of(context)
@@ -78,15 +78,15 @@ class _HomePageState extends State<HomePage> {
           } else if (state is HomerecordFinishedState) {
             _effect = true;
             _listenStatus = "Detecting song...";
-            print("$state");
+            //print("$state");
           } else if (state is HomerecordListeningState) {
-            print("$state");
+            //print("$state");
             _effect = true;
             _listenStatus = "Listening...";
           } else if (state is HomerecordInitial) {
-            print("$state");
+            //print("$state");
           } else if (state is HomerecordMissingValuesState) {
-            print("$state");
+            //print("$state");
             _effect = false;
             _listenStatus = "Tap to start listening";
             ScaffoldMessenger.of(context)
@@ -149,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                         icon: Icon(
                           Icons.favorite,
                         ),
+                        tooltip: "Favourites",
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -162,6 +163,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Colors.white,
                     child: IconButton(
                       icon: Icon(Icons.power_settings_new),
+                      tooltip: "Logout",
                       onPressed: () {
                         BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
                         // Navigator.of(context).pushAndRemoveUntil(

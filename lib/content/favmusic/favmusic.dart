@@ -43,6 +43,14 @@ class _FavouritePageState extends State<FavouritePage> {
             BlocProvider.of<FirebaseBloc>(context)
                 .add(FirebaseGetFavouriteMusicEvent());
           }
+          if (state is FirebaseRemoveFavSongLoading) {
+            //loading snackbar
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Removing song from favourites..."),
+              ),
+            );
+          }
         },
         builder: (context, state) {
           if (state is FirebaseGetFavMusicSuccess) {
@@ -67,8 +75,14 @@ class _FavouritePageState extends State<FavouritePage> {
             return Center(
               child: Text("No favourite songs yet"),
             );
+          } else if (state is FirebaseRemoveFavSongLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           } else {
-            return CircularProgressIndicator();
+            return Center(
+              child: Text("Ice cream machine broke"),
+            );
           }
         },
       ),
@@ -167,7 +181,7 @@ class _FavouritePageState extends State<FavouritePage> {
                   end: Alignment.topCenter,
                   colors: [
                     Colors.black.withOpacity(1),
-                    Colors.black.withOpacity(0.0),
+                    Colors.purple.withOpacity(0.0),
                   ],
                 ),
               ),

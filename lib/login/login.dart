@@ -56,8 +56,8 @@ class _LoginPageState extends State<LoginPage> {
                       height: 50,
                     ),
                     Image.asset(
-                      "assets/icon.webp",
-                      height: 120,
+                      "assets/buttonicon.png",
+                      height: 200,
                     ),
                     SizedBox(height: 150),
                     Text(

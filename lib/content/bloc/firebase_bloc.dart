@@ -24,14 +24,14 @@ class FirebaseBloc extends Bloc<FirebaseEvent, FirebaseState> {
       Map<String, dynamic>? collection = (await userCollection.get()).data();
 
       if (collection == null) {
-        print("Could not retrieve collection");
+        //print("Could not retrieve collection");
         return null;
       }
       List<dynamic> favourites = collection['user-favourites'];
-      print("Favourites LMAO: $favourites");
+      //print("Favourites LMAO: $favourites");
       //print("Favourites song #1: ${favourites[0]['songName']}");
       if (favourites.isEmpty) {
-        print("Favourites is empty");
+        //print("Favourites is empty");
         favourites.add(event.favourite);
         await userCollection.update({'user-favourites': favourites});
         emit(FirebaseAddFavSongSuccess());
@@ -39,7 +39,7 @@ class FirebaseBloc extends Bloc<FirebaseEvent, FirebaseState> {
         for (var i in favourites) {
           if (i['songName'] == event.favourite['songName'] &&
               i['artistName'] == event.favourite['artistName']) {
-            print("Song already exists");
+            //print("Song already exists");
             emit(FirebaseAddFavSongExists());
             return;
           }
@@ -64,7 +64,7 @@ class FirebaseBloc extends Bloc<FirebaseEvent, FirebaseState> {
       Map<String, dynamic>? collection = (await userCollection.get()).data();
 
       if (collection == null) {
-        print("Could not retrieve collection");
+        //print("Could not retrieve collection");
         return null;
       }
       List<dynamic> favourites = collection['user-favourites'];
@@ -96,15 +96,15 @@ class FirebaseBloc extends Bloc<FirebaseEvent, FirebaseState> {
       Map<String, dynamic>? collection = (await userCollection.get()).data();
 
       if (collection == null) {
-        print("Could not retrieve collection");
+        //print("Could not retrieve collection");
         return null;
       }
       List<dynamic> favourites = collection['user-favourites'];
-      print("Favourites HOLLA: $favourites");
+      //print("Favourites HOLLA: $favourites");
       if (favourites.isEmpty) {
         emit(FirebaseGetFavMusicIsEmpty());
       } else {
-        print("Favourites song #1: ${favourites[0]['songName']}");
+        //print("Favourites song #1: ${favourites[0]['songName']}");
         emit(FirebaseGetFavMusicSuccess(favourites: favourites));
       }
     } catch (e) {

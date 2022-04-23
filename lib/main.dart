@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             return LoginPage();
           }
           return Scaffold(
-            body: Container(
+            body: Center(
               child: CircularProgressIndicator(),
             ),
           );

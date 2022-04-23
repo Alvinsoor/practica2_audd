@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _authVerification(event, emit) {
+    emit(AuthAwaitingState());
     //initialize data from app
     if (_userAuthRepository.isAlreadyAuthenticated()) {
       emit(AuthSuccessState());
@@ -32,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _authUser(event, emit) async {
+    emit(AuthAwaitingState());
     try {
       await _userAuthRepository.signInWithGoogle();
       emit(AuthSuccessState());
