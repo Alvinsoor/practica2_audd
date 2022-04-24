@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Container(
-            decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, .9)),
+            decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, .75)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
